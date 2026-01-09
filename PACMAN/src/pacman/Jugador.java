@@ -14,18 +14,18 @@ public class Jugador {
     private int puntaje = 0;
     private Tablero tablero;
 
-    public Jugador(Tablero tablero, int fila, int columna) {
+    public Jugador(Tablero tablero, int fila, int columna) {//Constructor de "Jugador" determina su posicion en el tablero
         this.tablero = tablero;
         this.fila = fila;
         this.columna = columna;
     }
 
     public boolean mover(char dir) {
-        int df = 0;
-        int dc = 0;
+        int df = 0;//Direccion fila
+        int dc = 0;//Direccion columna
         
         
-        switch (dir) {
+        switch (dir) {//Posibles direcciones
             case 'w': df = -1; break;
             case 's': df =  1; break;
             case 'a': dc = -1; break;

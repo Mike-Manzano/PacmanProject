@@ -56,10 +56,6 @@ public class Tablero {
         "X.XXXXXXXXXX.XX.XXXXXXXXXX.X",
         "X..........................X",
         "XXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-        
-        
-        
-    
     };
 
     public Tablero() {
