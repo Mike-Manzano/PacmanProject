@@ -19,6 +19,9 @@ public class Enemigo {
         this.columna = columna;
     }
 
+    
+    
+    //Comentario de prueba jaja
     public void moverAleatorio() {
         String dirs = "wasd";
         
