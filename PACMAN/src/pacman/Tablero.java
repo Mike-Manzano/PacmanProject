@@ -24,7 +24,7 @@ public class Tablero {
 
     private Celda[][] celdas;
 
-    private final String[] layout = {
+    private final String[] layout = { //Constante que permite establecer el tablero posteriormente
         "XXXXXXXXXXXXXXXXXXXXXXXXXXXX",
         "X............XX............X",
         "X.XXXX.XXXXX.XX.XXXXX.XXXX.X",
@@ -58,14 +58,15 @@ public class Tablero {
         "XXXXXXXXXXXXXXXXXXXXXXXXXXXX"
     };
 
-    public Tablero() {
+    public Tablero() {//constructor de tablero que no requiere ningun input de parámetros. Cuando se invoca se genera una matriz de ancho y alto iguales al 
+                       // de la constante layout. Despues identifica las casillas y coloca muros, jugadores...etc.
         int alto  = layout.length;
         int ancho = layout[0].length();
-        celdas = new Celda[alto][ancho];
+        celdas = new Celda[alto][ancho];//creación del objeto (matriz) que va a almacenar los movimientos y posiciones de enemigos, jugadores, y el estado de las demas varibles)
 
         for (int i = 0; i < alto; i++) {
             for (int j = 0; j < ancho; j++) {
-                char c = layout[i].charAt(j);
+                char c = layout[i].charAt(j);//Tomando el layout inicial como plantilla, rellena la matriz Celdas con las posiciones iniciales de todos los jugadores, enemigos y demás)
                 if (c == MURO || c == PUNTO || c == VACIO || c == JUGADOR || c == ENEMIGO) {
                     celdas[i][j] = new Celda(c);
                 } else {
@@ -90,37 +91,40 @@ public class Tablero {
         return null;
     }
 
-    public boolean esValido(int fila, int col) {
+    public boolean esValido(int fila, int col) {//Comprobador de movimientos: Checkea una posición y comprueba que se encuentre dentro de la matriz y 
+                                                //que la celda no se encuentre ocupada por un enemigo.
         if (fila < 0 || fila >= getAlto() || col < 0 || col >= getAncho() || celdas[fila][col].getTipo()==ENEMIGO) {
             return false;
         }
         return celdas[fila][col].getTipo()!= MURO;
     }
 
-    public void imprimir(Jugador jugador, Enemigo[] enemigos) {
+    public void imprimir(Jugador jugador, Enemigo[] enemigos) {//Imprime las posiciones, las cuales NO ESTAN ALMACENADAS EN TABLERO sino que se encuentran almacenadas
+                                                               //En el propio objeto. Ej: Jugador tiene los parametros Fila y Columna, y por tanto la posición del jugador
+                                                               //SE EXTRAE DE DICHOS PARAMETROS DEL OBJETO, NO DEL TABLERO.
         for (int i = 0; i < getAlto(); i++) {
             for (int j = 0; j < getAncho(); j++) {
                 // Pacman
-                if (i == jugador.getFila() && j == jugador.getColumna()) {
-                    System.out.print(JUGADOR_COLOR + JUGADOR + RESET);
+                if (i == jugador.getFila() && j == jugador.getColumna()) { //Primero comprueba si el jugador se encuentra en esta columna a través de los 
+                    System.out.print(JUGADOR_COLOR + JUGADOR + RESET);    //atributos del objeto jugador.
                     continue;
                 }
 
                 // Enemigos
                 boolean esEnemigo = false;
-                for (Enemigo e : enemigos) {
+                for (Enemigo e : enemigos) { //Mismo proceso para enemigos: Comprueba parametros del objeto Enemigo, NO CHECKEA NINGUN TABLERO.
                     if (e.getFila() == i && e.getColumna() == j) {
                         System.out.print(ENEMIGO_COLOR + ENEMIGO + RESET);
                         esEnemigo = true;
                         break;
                     }
                 }
-                if (esEnemigo) {
+                if (esEnemigo) { //Si ha encontrado un enemigo salta al siguiente bucle para no comprobar puntos y etc.
                     continue;
                 }
 
                 // Elementos del tablero
-                char tipo = celdas[i][j].getTipo();
+                char tipo = celdas[i][j].getTipo(); //Sin embargo, para los puntos y los muros si que comprueba el tablero.
                 String color = "";
 
                 if (tipo == MURO) {
@@ -137,7 +141,7 @@ public class Tablero {
         }
     }
 
-    public boolean todosPuntosComidos() {
+    public boolean todosPuntosComidos() {//Checkea todo el tablero generado y si no encuentra puntos determina que todos han sido comidos.
         for (int i = 0; i < getAlto(); i++) {
             for (int j = 0; j < getAncho(); j++) {
                 if (celdas[i][j].getTipo() == PUNTO) {
