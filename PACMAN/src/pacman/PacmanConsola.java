@@ -97,7 +97,7 @@ public class PacmanConsola {
                     // Mover enemigos
                     for (Enemigo e : enemigos) {//Recorre el array de enemigos 
                         //TODO introducir metodo para revisar los enemigos no atraviesen enemigos
-                        e.moverAleatorio(); //Llama a la funcion mover para cada enemigo
+                        e.moverAleatorio(enemigos); //Llama a la funcion mover para cada enemigo
                     }
 
                     // Detectar colisión con enemigos

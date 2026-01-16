@@ -9,18 +9,19 @@ package pacman;
  * @author WEB1-20
  */
 public class Tablero {
-    public static final char MURO    = 'X';
-    public static final char PUNTO   = '.';
-    public static final char VACIO   = ' ';
+
+    public static final char MURO = 'X';
+    public static final char PUNTO = '.';
+    public static final char VACIO = ' ';
     public static final char JUGADOR = 'P';
     public static final char ENEMIGO = 'E';
 
     // Colores ANSI
-    public static final String RESET          = "\u001B[0m";
-    public static final String MURO_COLOR     = "\u001B[34m";  // Azul
-    public static final String PUNTO_COLOR    = "\u001B[33m";  // Amarillo
-    public static final String JUGADOR_COLOR  = "\u001B[32m";  // Verde
-    public static final String ENEMIGO_COLOR  = "\u001B[31m";  // Rojo
+    public static final String RESET = "\u001B[0m";
+    public static final String MURO_COLOR = "\u001B[34m";  // Azul
+    public static final String PUNTO_COLOR = "\u001B[33m";  // Amarillo
+    public static final String JUGADOR_COLOR = "\u001B[32m";  // Verde
+    public static final String ENEMIGO_COLOR = "\u001B[31m";  // Rojo
 
     private Celda[][] celdas;
 
@@ -30,7 +31,7 @@ public class Tablero {
         "X.XXXX.XXXXX.XX.XXXXX.XXXX.X",
         "X.XXXX.XXXXX.XX.XXXXX.XXXX.X",
         "X.XXXX.XXXXX.XX.XXXXX.XXXX.X",
-        "X.............E............X",
+        "X..E.......E....E......E...X",
         "X.XXXX.XX.XXXXXXXX.XX.XXXX.X",
         "X.XXXX.XX.XXXXXXXX.XX.XXXX.X",
         "X......XX....XX....XX......X",
@@ -38,8 +39,8 @@ public class Tablero {
         "XXXXXX.XXXXX.XX.XXXXX.XXXXXX",
         "XXXXXX.XX...E..E...XX.XXXXXX",
         "XXXXXX.XX.XXXXXXXX.XX.XXXXXX",
-        "XXXXXX.XX.X......X.XX.XXXXXX",
-        "..........X......X..........",
+        "XXXXXX.XX.X......XEXX.XXXXXX",
+        "....E.....X......X..........",
         "XXXXXX.XX.X......X.XX.XXXXXX",
         "XXXXXX.XX.XXXXXXXX.XX.XXXXXX",
         "XXXXXX.XX..........XX.XXXXXX",
@@ -59,8 +60,8 @@ public class Tablero {
     };
 
     public Tablero() {//constructor de tablero que no requiere ningun input de parámetros. Cuando se invoca se genera una matriz de ancho y alto iguales al 
-                       // de la constante layout. Despues identifica las casillas y coloca muros, jugadores...etc.
-        int alto  = layout.length;
+        // de la constante layout. Despues identifica las casillas y coloca muros, jugadores...etc.
+        int alto = layout.length;
         int ancho = layout[0].length();
         celdas = new Celda[alto][ancho];//creación del objeto (matriz) que va a almacenar los movimientos y posiciones de enemigos, jugadores, y el estado de las demas varibles)
 
@@ -92,16 +93,27 @@ public class Tablero {
     }
 
     public boolean esValido(int fila, int col) {//Comprobador de movimientos: Checkea una posición y comprueba que se encuentre dentro de la matriz y 
-                                                //que la celda no se encuentre ocupada por un enemigo.
-        if (fila < 0 || fila >= getAlto() || col < 0 || col >= getAncho() || celdas[fila][col].getTipo()==ENEMIGO) {
+        //que la celda no se encuentre ocupada por un enemigo.
+
+        if (fila < 0 || fila >= getAlto() || col < 0 || col >= getAncho()) {
             return false;
         }
-        return celdas[fila][col].getTipo()!= MURO;
+        
+
+        return celdas[fila][col].getTipo() != MURO;
+    }
+
+    public boolean noEnem(int fila, int col, Enemigo[] enemigos) {
+        for (Enemigo e : enemigos) {
+            if (e.getFila() == fila && e.getColumna() == col){
+            return false;}
+        }
+        return true;
     }
 
     public void imprimir(Jugador jugador, Enemigo[] enemigos) {//Imprime las posiciones, las cuales NO ESTAN ALMACENADAS EN TABLERO sino que se encuentran almacenadas
-                                                               //En el propio objeto. Ej: Jugador tiene los parametros Fila y Columna, y por tanto la posición del jugador
-                                                               //SE EXTRAE DE DICHOS PARAMETROS DEL OBJETO, NO DEL TABLERO.
+        //En el propio objeto. Ej: Jugador tiene los parametros Fila y Columna, y por tanto la posición del jugador
+        //SE EXTRAE DE DICHOS PARAMETROS DEL OBJETO, NO DEL TABLERO.
         for (int i = 0; i < getAlto(); i++) {
             for (int j = 0; j < getAncho(); j++) {
                 // Pacman

@@ -19,11 +19,12 @@ public class Enemigo {
         this.columna = columna;
     }
 
-    public void moverAleatorio() {
+    public void moverAleatorio( Enemigo[] enemigos) {
         String dirs = "wasd";
         
         int nuevaFila;//fila que ocupara en el futuro
         int nuevaCol;//columna *****
+        boolean movRealizado= false;
         do{//Selecciona numeros aleatorios dentro del string "wasd" hasta que sean validos
             
         
@@ -42,12 +43,14 @@ public class Enemigo {
         nuevaFila = fila + df; //Establece cual sera la nueva fila, usando la actual +- la direccion
         nuevaCol  = columna + dc;//Establece cual sera la nueva columna, usando la actual +- la direccion
 
-        if (tablero.esValido(nuevaFila, nuevaCol)) {//Llama a la funcion .esValido para revisar la casilla
+        if (tablero.esValido(nuevaFila, nuevaCol) && tablero.noEnem(nuevaFila,nuevaCol,enemigos)) {//Llama a la funcion .esValido para revisar la casilla
             fila = nuevaFila; // mueve a nueva fila
             columna = nuevaCol;//mueve a nueva columna
+           
+            movRealizado=true;
         }
             
-        }while(!tablero.esValido(nuevaFila, nuevaCol));
+        }while(!movRealizado);
     }
     
 
